@@ -1,7 +1,6 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100vw;
+  height: 100vh;
   text-align: center;
 }
 
@@ -39,4 +38,17 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.MuiIconButton-root {
+  color: #646cff !important;
+}
+
+.MuiButtonBase-root.MuiIconButton-root {
+  padding: 8px;
+  color: #646cff !important;
+}
+
+.MuiSvgIcon-root {
+  color: #646cff !important;
 }

@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 export const AuthContext = createContext();
@@ -14,25 +15,32 @@ export const publicApi = axios.create({
 });
 
 export const AuthProvider = ({ children }) => {
+    const location = useLocation();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const checkAuth = async () => {
+            const isAdminRoute = location.pathname.startsWith('/admin');
+
+            if (!isAdminRoute) {
+                setLoading(false);
+                return;
+            }
+
             try {
-                const response = await adminApi.get('/auth/me'); // Assumes /auth/me returns current user
+                const response = await adminApi.get('/auth/me');
                 setUser(response.data);
             } catch (err) {
-                console.error('Not authenticated or session expired');
+                console.error('Admin not authenticated or session expired');
                 setUser(null);
-                throw err
             } finally {
                 setLoading(false);
             }
         };
 
         checkAuth();
-    }, []);
+    }, [location.pathname]);
 
     const loginUser = async (credentials) => {
         try {
@@ -62,5 +70,9 @@ export const AuthProvider = ({ children }) => {
         logout,
     };
 
-    return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={contextValue}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
