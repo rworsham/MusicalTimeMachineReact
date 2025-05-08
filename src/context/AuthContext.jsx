@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export const AuthContext = createContext();
@@ -16,6 +16,7 @@ export const publicApi = axios.create({
 
 export const AuthProvider = ({ children }) => {
     const location = useLocation();
+    const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -34,6 +35,7 @@ export const AuthProvider = ({ children }) => {
             } catch (err) {
                 console.error('Admin not authenticated or session expired');
                 setUser(null);
+                navigate('/admin/login');
             } finally {
                 setLoading(false);
             }
@@ -45,8 +47,8 @@ export const AuthProvider = ({ children }) => {
     const loginUser = async (credentials) => {
         try {
             await adminApi.post('/auth/login', credentials);
-            const response = await adminApi.get('/auth/me');
-            setUser(response.data);
+            await adminApi.get('/auth/me');
+            navigate('/admin/dashboard');
         } catch (err) {
             console.error('Login failed:', err);
             throw err;
@@ -60,6 +62,7 @@ export const AuthProvider = ({ children }) => {
             console.error('Logout failed:', err);
         } finally {
             setUser(null);
+            navigate('/');
         }
     };
 
