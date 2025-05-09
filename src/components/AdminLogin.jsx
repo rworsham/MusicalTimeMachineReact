@@ -37,6 +37,7 @@ const AdminLogin = () => {
         try {
             await loginUser({ username, password });
         } catch (error) {
+            console.error(error);
             setError("Login Failed");
         } finally {
             setIsSubmitting(false);

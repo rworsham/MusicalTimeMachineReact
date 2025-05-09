@@ -30,10 +30,10 @@ export const AuthProvider = ({ children }) => {
             }
 
             try {
-                const response = await adminApi.get('/auth/me');
-                setUser(response.data);
-            } catch (err) {
-                console.error('Admin not authenticated or session expired');
+                const response = await adminApi.get('/me');
+                setUser(response.data.user);
+            } catch (error) {
+                console.error(error,'Admin not authenticated or session expired');
                 setUser(null);
                 navigate('/admin/login');
             } finally {
@@ -42,12 +42,14 @@ export const AuthProvider = ({ children }) => {
         };
 
         checkAuth();
-    }, [location.pathname]);
+    }, [location.pathname, navigate]);
 
     const loginUser = async (credentials) => {
         try {
-            await adminApi.post('/auth/login', credentials);
-            await adminApi.get('/auth/me');
+            await adminApi.post('/login', credentials);
+            const response = await adminApi.get('/me');
+            const user = response.data.user;
+            setUser(user);
             navigate('/admin/dashboard');
         } catch (err) {
             console.error('Login failed:', err);
@@ -57,7 +59,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            await adminApi.post('/auth/logout');
+            await adminApi.post('/logout');
         } catch (err) {
             console.error('Logout failed:', err);
         } finally {

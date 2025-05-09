@@ -56,6 +56,7 @@ const DateSelectionForm = ({ onError  }) => {
                     }}
             )
         } catch (error) {
+            console.error(error);
             onError("Failed to create playlist, please try again");
         } finally {
             setIsSubmitting(false);
