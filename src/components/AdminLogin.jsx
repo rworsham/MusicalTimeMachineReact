@@ -7,7 +7,6 @@ import {
     CircularProgress,
 } from '@mui/material';
 import AlertHandler from "./AlertHandler.jsx";
-import Footer from "./Footer.jsx";
 import { AuthContext } from "../context/AuthContext.jsx";
 
 const AdminLogin = () => {
@@ -45,83 +44,55 @@ const AdminLogin = () => {
     };
 
     return (
-        <Box
-            sx={{
-                backgroundImage: 'url(/warp.png)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                minHeight: '100dvh',
-                width: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                px: 2
-            }}
-        >
+        <Box>
+            <Typography variant="h5" mb={2} align="center">
+                Login
+            </Typography>
             <Box
+                component="form"
+                onSubmit={handleSubmit}
                 sx={{
-                    backgroundColor: 'rgba(0,0,0,0.8)',
-                    borderRadius: 3,
-                    p: { xs: 3, sm: 4 },
-                    maxWidth: 700,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 3,
                     width: '100%',
-                    textAlign: 'center',
+                    mt: 4
                 }}
             >
-                <Typography variant="h5" mb={2} align="center">
-                    Login
-                </Typography>
-                <Box
-                    component="form"
-                    onSubmit={handleSubmit}
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        gap: 3,
-                        width: '100%',
-                        mt: 4
-                    }}
+                <TextField
+                    label="Username"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    margin="normal"
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+                <TextField
+                    label="Password"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    margin="normal"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    disabled={isSubmitting}
+                    sx={{ mt: 2 }}
                 >
-                    <TextField
-                        label="Username"
-                        variant="outlined"
-                        fullWidth
-                        required
-                        margin="normal"
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                    <TextField
-                        label="Password"
-                        variant="outlined"
-                        fullWidth
-                        required
-                        margin="normal"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        disabled={isSubmitting}
-                        sx={{ mt: 2 }}
-                    >
-                        {isSubmitting ? <CircularProgress size={24} color="inherit" /> : 'Login'}
-                    </Button>
-                </Box>
+                    {isSubmitting ? <CircularProgress size={24} color="inherit" /> : 'Login'}
+                </Button>
             </Box>
 
             <AlertHandler alertMessage={error} />
-
-            <Footer />
-
         </Box>
     );
 };

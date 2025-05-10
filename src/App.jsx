@@ -8,7 +8,9 @@ import Home from './components/Home.jsx';
 import TimeTravel from './components/TimeTravel.jsx';
 import AdminLogin from "./components/AdminLogin.jsx";
 import AdminDashboard from "./components/AdminDashboard.jsx";
+import PlaylistCreated  from "./components/PlaylistCreated.jsx";
 import './App.css';
+import Layout from "./components/Layout.jsx";
 
 function App() {
     const { authTokens, user, loading, loginUser, logout } = useContext(AuthContext);
@@ -21,12 +23,15 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
               <Box sx={{ backgroundColor: 'background.default', minHeight: '100vh' }}>
-                  <Routes>
-                      <Route path="/" element={<Home />} />
-                      <Route path="/timetravel" element={<TimeTravel />} />
-                      <Route path="/admin/login" element={<AdminLogin />} />
-                      <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                  </Routes>
+                  <Layout>
+                      <Routes>
+                          <Route path="/" element={<Home />} />
+                          <Route path="/timetravel" element={<TimeTravel />} />
+                          <Route path="/timetravel1" element={<PlaylistCreated />} />
+                          <Route path="/admin/login" element={<AdminLogin />} />
+                          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                      </Routes>
+                  </Layout>
               </Box>
         </ThemeProvider>
     );

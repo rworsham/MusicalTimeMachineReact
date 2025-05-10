@@ -8,18 +8,15 @@ import {publicApi} from "../context/AuthContext.jsx";
 
 const getNearestMonday = (date) => {
     const dayOfWeek = date.day();
-
     if (dayOfWeek === 1) return date.format('YYYY-MM-DD');
-
     const diffToMonday = (dayOfWeek === 0) ? 1 : (dayOfWeek - 1);
     return date.add(diffToMonday, 'day').format('YYYY-MM-DD');
 };
 
-const DateSelectionForm = ({ onError  }) => {
+const DateSelectionForm = ({ onError, onSuccess }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [date, setDate] = useState(dayjs());
     const [isPublic, setIsPublic] = useState(true);
-
 
     const validateForm = () => {
         if (!date || !dayjs(date).isValid()) {
@@ -49,12 +46,13 @@ const DateSelectionForm = ({ onError  }) => {
         const nearestMonday = getNearestMonday(date);
 
         try {
-            await publicApi.get('/playlist',
-                {params: {
+            await publicApi.get('/playlist',{
+                params: {
                     date: nearestMonday,
                     isPublic,
-                    }}
-            )
+                }
+            });
+            onSuccess();
         } catch (error) {
             console.error(error);
             onError("Failed to create playlist, please try again");
