@@ -27,6 +27,7 @@ function Footer() {
                 © 2025 Musical Time Machine
             </Typography>
             <Box sx={{ display: 'flex', justifyContent: 'center', gap: 3 }}>
+                <Link to="/" color="inherit" underline="hover">Home</Link>
                 <Link to="/contact" color="inherit" underline="hover">Contact</Link>
                 <Link to="/privacy" color="inherit" underline="hover">Privacy Policy</Link>
                 <Link to="/terms" color="inherit" underline="hover">Terms</Link>
