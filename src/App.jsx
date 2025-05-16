@@ -11,6 +11,7 @@ import AdminDashboard from "./components/AdminDashboard.jsx";
 import PlaylistCreated  from "./components/PlaylistCreated.jsx";
 import './App.css';
 import Layout from "./components/Layout.jsx";
+import ContactForm from "./Forms/ContactForm.jsx";
 
 function App() {
     const { authTokens, user, loading, loginUser, logout } = useContext(AuthContext);
@@ -26,6 +27,7 @@ function App() {
                   <Layout>
                       <Routes>
                           <Route path="/" element={<Home />} />
+                          <Route path="/contact" element={<ContactForm />} />
                           <Route path="/timetravel" element={<TimeTravel />} />
                           <Route path="/timetravel1" element={<PlaylistCreated />} />
                           <Route path="/admin/login" element={<AdminLogin />} />

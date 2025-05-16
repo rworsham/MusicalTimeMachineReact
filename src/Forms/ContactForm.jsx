@@ -6,12 +6,14 @@ import {
     TextField,
     Typography
 } from '@mui/material';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { publicApi } from '../context/AuthContext.jsx';
 
 const ContactForm = ({ onSuccess, onError }) => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     const validateForm = () => {
         if (!email || !/\S+@\S+\.\S+/.test(email)) {
@@ -22,7 +24,6 @@ const ContactForm = ({ onSuccess, onError }) => {
             onError('Message must be at least 10 characters long');
             return false;
         }
-        onError('');
         return true;
     };
 
@@ -30,9 +31,21 @@ const ContactForm = ({ onSuccess, onError }) => {
         event.preventDefault();
         if (!validateForm()) return;
 
+        if (!executeRecaptcha) {
+            onError('Recaptcha is not ready');
+            return;
+        }
+
         setIsSubmitting(true);
         try {
-            await publicApi.post('/contact', { email, message });
+            const token = await executeRecaptcha('contact_form_submit');
+
+            await publicApi.post('/contact', {
+                email,
+                message,
+                recaptchaToken: token,
+            });
+
             onSuccess('Thanks for your message!');
             setEmail('');
             setMessage('');
