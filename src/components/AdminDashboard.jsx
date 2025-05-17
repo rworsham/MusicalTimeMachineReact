@@ -10,16 +10,13 @@ import {
     CardActions,
 } from '@mui/material';
 import { AuthContext } from '../context/AuthContext.jsx';
+import { useAlert } from '../context/AlertContext.jsx';
 import SeedDataForm from "../Forms/SeedDataForm.jsx";
 
 const AdminDashboard = () => {
     const { user, logout, loading } = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState('');
-
-    const handleError = (errorMessage) => {
-        setError(errorMessage);
-    };
+    const { showError } = useAlert();
 
     const handleLogout = async () => {
         setIsLoading(true);
@@ -27,7 +24,7 @@ const AdminDashboard = () => {
             await logout();
         } catch (err) {
             console.error(err);
-            setError('Failed to log out');
+            showError('Failed to log out', 'error');
         } finally {
             setIsLoading(false);
         }
@@ -94,7 +91,7 @@ const AdminDashboard = () => {
                             <Typography variant="h6" gutterBottom>
                                 Billboard Data
                             </Typography>
-                            <SeedDataForm onError={handleError} />
+                            <SeedDataForm/>
                         </CardContent>
                     </Card>
                 </Grid>

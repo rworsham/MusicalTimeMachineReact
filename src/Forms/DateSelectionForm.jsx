@@ -5,6 +5,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import {publicApi} from "../context/AuthContext.jsx";
+import { useAlert } from '../context/AlertContext.jsx';
 
 const getNearestMonday = (date) => {
     const dayOfWeek = date.day();
@@ -13,14 +14,15 @@ const getNearestMonday = (date) => {
     return date.add(diffToMonday, 'day').format('YYYY-MM-DD');
 };
 
-const DateSelectionForm = ({ onError, onSuccess }) => {
+const DateSelectionForm = ({ onSuccess }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [date, setDate] = useState(dayjs());
     const [isPublic, setIsPublic] = useState(true);
+    const { showError, showSuccess } = useAlert();
 
     const validateForm = () => {
         if (!date || !dayjs(date).isValid()) {
-            onError("Please enter a valid date");
+            showError("Please enter a valid date");
             return false;
         }
 
@@ -28,11 +30,10 @@ const DateSelectionForm = ({ onError, onSuccess }) => {
         const now = dayjs();
 
         if (date.isBefore(minDate) || date.isAfter(now)) {
-            onError("Date must be between 1960 and today");
+            showError("Date must be between 1960 and today");
             return false;
         }
 
-        onError('');
         return true;
     };
 
@@ -52,10 +53,11 @@ const DateSelectionForm = ({ onError, onSuccess }) => {
                     isPublic,
                 }
             });
+            showSuccess('Playlist Created!');
             onSuccess();
         } catch (error) {
             console.error(error);
-            onError("Failed to create playlist, please try again");
+            showError("Failed to create playlist, please try again");
         } finally {
             setIsSubmitting(false);
         }

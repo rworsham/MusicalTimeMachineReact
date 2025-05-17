@@ -6,8 +6,8 @@ import {
     Typography,
     CircularProgress,
 } from '@mui/material';
-import AlertHandler from "./AlertHandler.jsx";
 import { AuthContext } from "../context/AuthContext.jsx";
+import {useAlert} from "../context/AlertContext.jsx";
 
 const AdminLogin = () => {
     const { loginUser } = useContext(AuthContext);
@@ -15,15 +15,14 @@ const AdminLogin = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [error, setError] = useState('');
+    const { showError } = useAlert();
 
     const validateForm = () => {
         if (!username || !password) {
-            setError("Username and Password are required");
+            showError("Username and Password are required");
             return false;
         }
 
-        setError('');
         return true;
     };
 
@@ -37,7 +36,7 @@ const AdminLogin = () => {
             await loginUser({ username, password });
         } catch (error) {
             console.error(error);
-            setError("Login Failed");
+            showError("Login Failed");
         } finally {
             setIsSubmitting(false);
         }
@@ -92,7 +91,6 @@ const AdminLogin = () => {
                 </Button>
             </Box>
 
-            <AlertHandler alertMessage={error} />
         </Box>
     );
 };

@@ -4,19 +4,13 @@ import DateSelectionForm from "../Forms/DateSelectionForm.jsx";
 import PlaylistCreated from './PlaylistCreated.jsx';
 
 function TimeTravel() {
-    const [error, setError] = useState('');
     const [formSuccess, setFormSuccess] = useState(false);
-
-    const handleError = (errorMessage) => {
-        setError(errorMessage);
-    };
 
     const handleSuccess = () => {
         setFormSuccess(true);
     };
 
     const handleReset = () => {
-        setError('');
         setFormSuccess(false);
     };
 
@@ -38,7 +32,6 @@ function TimeTravel() {
                 }}
             >
                 <DateSelectionForm
-                    onError={handleError}
                     onSuccess={handleSuccess}
                 />
             </Box>

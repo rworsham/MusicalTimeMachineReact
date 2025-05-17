@@ -8,20 +8,22 @@ import {
 } from '@mui/material';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { publicApi } from '../context/AuthContext.jsx';
+import { useAlert } from '../context/AlertContext.jsx';
 
-const ContactForm = ({ onSuccess, onError }) => {
+const ContactForm = () => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { executeRecaptcha } = useGoogleReCaptcha();
+    const { showError } = useAlert();
 
     const validateForm = () => {
         if (!email || !/\S+@\S+\.\S+/.test(email)) {
-            onError('Please enter a valid email address');
+            showError('Please enter a valid email address', 'error');
             return false;
         }
         if (!message || message.trim().length < 10) {
-            onError('Message must be at least 10 characters long');
+            showError('Message must be at least 10 characters long', 'error');
             return false;
         }
         return true;
@@ -32,7 +34,7 @@ const ContactForm = ({ onSuccess, onError }) => {
         if (!validateForm()) return;
 
         if (!executeRecaptcha) {
-            onError('Recaptcha is not ready');
+            showError('Recaptcha is not ready', 'error');
             return;
         }
 
@@ -43,15 +45,15 @@ const ContactForm = ({ onSuccess, onError }) => {
             await publicApi.post('/contact', {
                 email,
                 message,
-                recaptchaToken: token,
+                captchaToken: token,
             });
 
-            onSuccess('Thanks for your message!');
+            showError('Thanks for your message!', 'success');
             setEmail('');
             setMessage('');
         } catch (error) {
             console.error(error);
-            onError('Failed to send message. Please try again later.');
+            showError('Failed to send message. Please try again later.', 'error');
         } finally {
             setIsSubmitting(false);
         }

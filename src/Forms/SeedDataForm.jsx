@@ -4,10 +4,12 @@ import {
     Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions
 } from '@mui/material';
 import { adminApi } from '../context/AuthContext.jsx';
+import { useAlert } from '../context/AlertContext.jsx';
 
-const SeedDataForm = ({ onError }) => {
+const SeedDataForm = () => {
     const [open, setOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const { showError } = useAlert();
 
     const handleClickOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -18,7 +20,7 @@ const SeedDataForm = ({ onError }) => {
             adminApi.post('/seed-billboard');
         } catch (error) {
             console.error(error);
-            onError ('Failed to start seeding, please try again.');
+            showError ('Failed to start seeding, please try again.');
         } finally {
             setIsSubmitting(false);
             setOpen(false);

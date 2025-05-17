@@ -9,7 +9,7 @@ import { AuthProvider } from './context/AuthContext.jsx';
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <GoogleReCaptchaProvider
-            reCaptchaKey="6LdJizwrAAAAAHdvp-FiEfeVuS1_4MElk_VN55ld"
+            reCaptchaKey="6LcNVTorAAAAAO-29FU85PJFZtN3akxben9tLri7"
             scriptProps={{
                 async: true,
                 defer: true,

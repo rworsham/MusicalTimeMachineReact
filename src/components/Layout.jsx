@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Link as RouterLink} from "react-router-dom";
 import { Box, Link } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -7,22 +7,6 @@ import Footer from "./Footer.jsx";
 import AlertHandler from "./AlertHandler.jsx";
 
 const Layout = ({ children }) => {
-
-    const [error, setError] = useState('');
-
-    const handleError = (message) => {
-        setError(message);
-        if (message) {
-            setTimeout(() => setError(''), 5000);
-        }
-    };
-
-    const childrenWithProps = React.Children.map(children, child =>
-        React.isValidElement(child)
-            ? React.cloneElement(child, { onError: handleError })
-            : child
-    );
-
     return (
         <Box
             sx={{
@@ -82,12 +66,12 @@ const Layout = ({ children }) => {
                     color: 'white'
                 }}
             >
-                {childrenWithProps}
+                {children}
             </Box>
 
             <Footer />
 
-            <AlertHandler alertMessage={error} />
+            <AlertHandler/>
 
         </Box>
     );

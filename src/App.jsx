@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext.jsx';
+import { AlertProvider } from './context/AlertContext.jsx';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, Box } from '@mui/material';
 import theme from './theme';
@@ -24,16 +25,18 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
               <Box sx={{ backgroundColor: 'background.default', minHeight: '100vh' }}>
-                  <Layout>
-                      <Routes>
-                          <Route path="/" element={<Home />} />
-                          <Route path="/contact" element={<ContactForm />} />
-                          <Route path="/timetravel" element={<TimeTravel />} />
-                          <Route path="/timetravel1" element={<PlaylistCreated />} />
-                          <Route path="/admin/login" element={<AdminLogin />} />
-                          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                      </Routes>
-                  </Layout>
+                  <AlertProvider>
+                      <Layout>
+                          <Routes>
+                              <Route path="/" element={<Home />} />
+                              <Route path="/contact" element={<ContactForm />} />
+                              <Route path="/timetravel" element={<TimeTravel />} />
+                              <Route path="/timetravel1" element={<PlaylistCreated />} />
+                              <Route path="/admin/login" element={<AdminLogin />} />
+                              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                          </Routes>
+                      </Layout>
+                  </AlertProvider>
               </Box>
         </ThemeProvider>
     );
