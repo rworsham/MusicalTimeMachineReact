@@ -15,7 +15,7 @@ const ContactForm = () => {
     const [message, setMessage] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { executeRecaptcha } = useGoogleReCaptcha();
-    const { showError } = useAlert();
+    const { showError, showSuccess } = useAlert();
 
     const validateForm = () => {
         if (!email || !/\S+@\S+\.\S+/.test(email)) {
@@ -48,7 +48,7 @@ const ContactForm = () => {
                 captchaToken: token,
             });
 
-            showError('Thanks for your message!', 'success');
+            showSuccess('Thanks for your message!', 'success');
             setEmail('');
             setMessage('');
         } catch (error) {

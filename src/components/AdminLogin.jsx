@@ -7,6 +7,7 @@ import {
     CircularProgress,
 } from '@mui/material';
 import { AuthContext } from "../context/AuthContext.jsx";
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import {useAlert} from "../context/AlertContext.jsx";
 
 const AdminLogin = () => {
@@ -14,6 +15,7 @@ const AdminLogin = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const { executeRecaptcha } = useGoogleReCaptcha();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { showError } = useAlert();
 
@@ -30,10 +32,17 @@ const AdminLogin = () => {
         event.preventDefault();
         if (!validateForm()) return;
 
+        if (!executeRecaptcha) {
+            showError('Recaptcha is not ready', 'error');
+            return;
+        }
+
         setIsSubmitting(true);
 
         try {
-            await loginUser({ username, password });
+            const token = await executeRecaptcha('admin_login_form_submit');
+
+            await loginUser({ username, password, captchaToken: token });
         } catch (error) {
             console.error(error);
             showError("Login Failed");
