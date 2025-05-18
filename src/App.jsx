@@ -13,6 +13,7 @@ import PlaylistCreated  from "./components/PlaylistCreated.jsx";
 import './App.css';
 import Layout from "./components/Layout.jsx";
 import ContactForm from "./Forms/ContactForm.jsx";
+import NotFound from "./components/404NotFound.jsx";
 
 function App() {
     const { authTokens, user, loading, loginUser, logout } = useContext(AuthContext);
@@ -34,6 +35,7 @@ function App() {
                               <Route path="/timetravel1" element={<PlaylistCreated />} />
                               <Route path="/admin/login" element={<AdminLogin />} />
                               <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                              <Route path="*" element={<NotFound />} />
                           </Routes>
                       </Layout>
                   </AlertProvider>
