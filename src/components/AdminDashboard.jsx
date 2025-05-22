@@ -12,6 +12,7 @@ import {
 import { AuthContext } from '../context/AuthContext.jsx';
 import { useAlert } from '../context/AlertContext.jsx';
 import SeedDataForm from "../Forms/SeedDataForm.jsx";
+import AdminUsageOverview from "./AdminUsageOverview.jsx";
 
 const AdminDashboard = () => {
     const { user, logout, loading } = useContext(AuthContext);
@@ -59,13 +60,11 @@ const AdminDashboard = () => {
                     <Card>
                         <CardContent>
                             <Typography variant="h6" gutterBottom>
-                                Users Overview
+                                Usage Overview
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button size="small" color="primary">
-                                View Users
-                            </Button>
+                            <AdminUsageOverview />
                         </CardActions>
                     </Card>
                 </Grid>
