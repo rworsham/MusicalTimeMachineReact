@@ -9,11 +9,12 @@ import Home from './components/Home.jsx';
 import TimeTravel from './components/TimeTravel.jsx';
 import AdminLogin from "./components/AdminLogin.jsx";
 import AdminDashboard from "./components/AdminDashboard.jsx";
-import PlaylistCreated  from "./components/PlaylistCreated.jsx";
 import './App.css';
 import Layout from "./components/Layout.jsx";
 import ContactForm from "./Forms/ContactForm.jsx";
 import NotFound from "./components/404NotFound.jsx";
+import PrivacyPolicy from "./components/PrivacyPolicy.jsx";
+import TermsAndConditions from "./components/TermsAndConditions.jsx";
 
 function App() {
     const { authTokens, user, loading, loginUser, logout } = useContext(AuthContext);
@@ -31,8 +32,9 @@ function App() {
                           <Routes>
                               <Route path="/" element={<Home />} />
                               <Route path="/contact" element={<ContactForm />} />
+                              <Route path="/privacy" element={<PrivacyPolicy />} />
+                              <Route path="/terms" element={<TermsAndConditions />} />
                               <Route path="/timetravel" element={<TimeTravel />} />
-                              <Route path="/timetravel1" element={<PlaylistCreated />} />
                               <Route path="/admin/login" element={<AdminLogin />} />
                               <Route path="/admin/dashboard" element={<AdminDashboard />} />
                               <Route path="*" element={<NotFound />} />

@@ -30,7 +30,7 @@ function Footer() {
                 <Link to="/" color="inherit" underline="hover">Home</Link>
                 <Link to="/contact" color="inherit" underline="hover">Contact</Link>
                 <Link to="/privacy" color="inherit" underline="hover">Privacy Policy</Link>
-                <Link to="/terms" color="inherit" underline="hover">Terms</Link>
+                <Link to="/terms" color="inherit" underline="hover">Terms and Conditions</Link>
             </Box>
         </Box>
     )
