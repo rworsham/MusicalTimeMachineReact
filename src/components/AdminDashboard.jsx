@@ -7,12 +7,12 @@ import {
     Grid,
     Card,
     CardContent,
-    CardActions,
 } from '@mui/material';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { useAlert } from '../context/AlertContext.jsx';
 import SeedDataForm from "../Forms/SeedDataForm.jsx";
 import AdminUsageOverview from "./AdminUsageOverview.jsx";
+import AdminSongData from "./AdminSongData.jsx";
 
 const AdminDashboard = () => {
     const { user, logout, loading } = useContext(AuthContext);
@@ -62,25 +62,8 @@ const AdminDashboard = () => {
                             <Typography variant="h6" gutterBottom>
                                 Usage Overview
                             </Typography>
-                        </CardContent>
-                        <CardActions>
                             <AdminUsageOverview />
-                        </CardActions>
-                    </Card>
-                </Grid>
-
-                <Grid item xs={12} sm={6} md={4}>
-                    <Card>
-                        <CardContent>
-                            <Typography variant="h6" gutterBottom>
-                                Billboard Data
-                            </Typography>
                         </CardContent>
-                        <CardActions>
-                            <Button size="small" color="primary">
-                                View Data
-                            </Button>
-                        </CardActions>
                     </Card>
                 </Grid>
 
@@ -88,7 +71,19 @@ const AdminDashboard = () => {
                     <Card>
                         <CardContent>
                             <Typography variant="h6" gutterBottom>
-                                Billboard Data
+                                View Song Data
+                            </Typography>
+                            <AdminSongData />
+                        </CardContent>
+
+                    </Card>
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={4}>
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h6" gutterBottom>
+                                Get Song Data
                             </Typography>
                             <SeedDataForm/>
                         </CardContent>

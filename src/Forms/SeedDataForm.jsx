@@ -17,7 +17,7 @@ const SeedDataForm = () => {
     const handleConfirm = () => {
         setIsSubmitting(true);
         try {
-            adminApi.post('/seed-billboard');
+            adminApi.post('/seed-song-data');
         } catch (error) {
             console.error(error);
             showError ('Failed to start seeding, please try again.');
@@ -37,14 +37,14 @@ const SeedDataForm = () => {
                 disabled={isSubmitting}
                 sx={{ width: { xs: '100%', sm: '75%' } }}
             >
-                Seed Billboard Data
+                Seed Song Data
             </Button>
 
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Confirm Seeding</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Are you sure you want to start seeding Billboard data?.
+                        Are you sure you want to start seeding Song data?.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
