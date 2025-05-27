@@ -10,7 +10,7 @@ import { useAlert } from '../context/AlertContext.jsx';
 const getNearestMonday = (date) => {
     const dayOfWeek = date.day();
     if (dayOfWeek === 1) return date.format('YYYY-MM-DD');
-    const diffToMonday = (dayOfWeek === 0) ? 1 : (dayOfWeek - 1);
+    const diffToMonday = (dayOfWeek === 0) ? 1 : (1- dayOfWeek);
     return date.add(diffToMonday, 'day').format('YYYY-MM-DD');
 };
 

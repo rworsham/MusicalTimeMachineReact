@@ -57,7 +57,7 @@ const AdminUsageOverview = () => {
         const dateMap = {};
 
         logs.forEach(({ createdAt, isPublic }) => {
-            const date = new Date(createdAt).toISOString().split('T')[0]; // YYYY-MM-DD
+            const date = new Date(createdAt).toISOString().split('T')[0];
 
             if (!dateMap[date]) {
                 dateMap[date] = { date, public: 0, private: 0 };
@@ -70,13 +70,19 @@ const AdminUsageOverview = () => {
         return Object.values(dateMap).sort((a, b) => new Date(a.date) - new Date(b.date));
     };
 
-    const hourlyData = groupByHour(logs.filter(log => {
-        const now = new Date();
-        const createdAt = new Date(log.createdAt);
-        return createdAt >= new Date(now.getTime() - 24 * 60 * 60 * 1000);
-    }));
+    const now = new Date();
 
-    const dailyData = groupByDay(logs);
+    const hourlyData = groupByHour(
+        logs.filter(log => new Date(log.createdAt) >= new Date(now.getTime() - 24 * 60 * 60 * 1000))
+    );
+
+    const dailyData = groupByDay(
+        logs.filter(log => new Date(log.createdAt) >= new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000))
+    );
+
+    const monthlyData = groupByDay(
+        logs.filter(log => new Date(log.createdAt) >= new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000))
+    );
 
     return (
         <Box sx={{ mt: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -133,6 +139,19 @@ const AdminUsageOverview = () => {
                             <Typography variant="subtitle1" mt={5}>Rolling 7-Day Usage</Typography>
                             <ResponsiveContainer width="100%" height={300}>
                                 <LineChart data={dailyData}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="date" />
+                                    <YAxis allowDecimals={false} />
+                                    <Tooltip />
+                                    <Legend />
+                                    <Line type="monotone" dataKey="public" stroke="#8884d8" name="Public" />
+                                    <Line type="monotone" dataKey="private" stroke="#82ca9d" name="Private" />
+                                </LineChart>
+                            </ResponsiveContainer>
+
+                            <Typography variant="subtitle1" mt={5}>Rolling 30-Day Usage</Typography>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <LineChart data={monthlyData}>
                                     <CartesianGrid strokeDasharray="3 3" />
                                     <XAxis dataKey="date" />
                                     <YAxis allowDecimals={false} />
