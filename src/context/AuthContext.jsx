@@ -5,13 +5,17 @@ import axios from 'axios';
 export const AuthContext = createContext();
 
 export const adminApi = axios.create({
-    baseURL: 'http://localhost:8080/api/admin',
+    baseURL: 'https://musicaltimemachinejavasb.onrender.com/api/admin',
     withCredentials: true,
+    xsrfCookieName: 'XSRF-TOKEN',
+    xsrfHeaderName: 'X-XSRF-TOKEN',
 });
 
 export const publicApi = axios.create({
-    baseURL: 'http://localhost:8080/api',
+    baseURL: 'https://musicaltimemachinejavasb.onrender.com/api',
     withCredentials: true,
+    xsrfCookieName: 'XSRF-TOKEN',
+    xsrfHeaderName: 'X-XSRF-TOKEN',
 });
 
 export const AuthProvider = ({ children }) => {

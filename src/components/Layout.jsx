@@ -1,12 +1,19 @@
-import React from 'react';
-import { Link as RouterLink} from "react-router-dom";
-import { Box, Link } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Link, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import HelpIcon from '@mui/icons-material/Help';
 import Footer from "./Footer.jsx";
 import AlertHandler from "./AlertHandler.jsx";
 
 const Layout = ({ children }) => {
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const handleConfirm = () => {
+        window.open("https://github.com/rworsham", "_blank");
+        setOpen(false);
+    };
+
     return (
         <Box
             sx={{
@@ -24,8 +31,8 @@ const Layout = ({ children }) => {
             }}
         >
             <Link
-                href="https://github.com/rworsham"
-                target="_blank"
+                component="button"
+                onClick={handleOpen}
                 sx={{
                     position: 'absolute',
                     top: 20,
@@ -38,22 +45,20 @@ const Layout = ({ children }) => {
                 <GitHubIcon fontSize="inherit" />
             </Link>
 
-            <Link
-                component={RouterLink}
-                to="/help"
-                target="_blank"
-                sx={{
-                    position: 'absolute',
-                    top: 20,
-                    left: 20,
-                    color: 'white',
-                    fontSize: 40,
-                    zIndex: 1,
-                    textDecoration: 'none'
-                }}
-            >
-                <HelpIcon fontSize="inherit" />
-            </Link>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Leaving This Site</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        You’re about to visit an external development site (GitHub). Do you want to continue?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleConfirm} color="primary" autoFocus>
+                        Continue
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
             <Box
                 sx={{
@@ -71,8 +76,7 @@ const Layout = ({ children }) => {
 
             <Footer />
 
-            <AlertHandler/>
-
+            <AlertHandler />
         </Box>
     );
 }
