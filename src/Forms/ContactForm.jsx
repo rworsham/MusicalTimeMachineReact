@@ -40,6 +40,7 @@ const ContactForm = () => {
 
         setIsSubmitting(true);
         try {
+            await publicApi.get('/auth/csrf-token')
             const token = await executeRecaptcha('contact_form_submit');
 
             await publicApi.post('/contact', {

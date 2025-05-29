@@ -34,6 +34,8 @@ export const AuthProvider = ({ children }) => {
             }
 
             try {
+                await publicApi.get('/auth/csrf-token');
+
                 const response = await adminApi.get('/me');
                 setUser(response.data.user);
             } catch (error) {
@@ -50,6 +52,8 @@ export const AuthProvider = ({ children }) => {
 
     const loginUser = async (credentials) => {
         try {
+            await publicApi.post('/auth/csrf-token');
+
             await adminApi.post('/login', credentials);
             const response = await adminApi.get('/me');
             const user = response.data.user;
