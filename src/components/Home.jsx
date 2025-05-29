@@ -82,7 +82,7 @@ function Home() {
                 </DialogContent>
                 <DialogActions sx={{ justifyContent: 'center' }}>
                     <Button
-                        href="https://musicaltimemachinejavasb.onrender.com/api/auth/login"
+                        href="https://api.musicaltimemachine.com/api/auth/login"
                         variant="contained"
                         color="info"
                         sx={{ width: 150 }}
