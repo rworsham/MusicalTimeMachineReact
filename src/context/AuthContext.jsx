@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
 
     const loginUser = async (credentials) => {
         try {
-            await publicApi.post('/auth/csrf-token');
+            await publicApi.get('/auth/csrf-token');
 
             await adminApi.post('/login', credentials);
             const response = await adminApi.get('/me');
