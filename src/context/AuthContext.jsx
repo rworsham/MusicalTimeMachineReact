@@ -4,6 +4,24 @@ import axios from 'axios';
 
 export const AuthContext = createContext();
 
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+async function ensureCsrfToken() {
+    const token = getCookie('XSRF-TOKEN');
+    if (!token) {
+        try {
+            await publicApi.get('/auth/csrf-token');
+        } catch (err) {
+            console.error('Failed to fetch CSRF token', err);
+            throw err;
+        }
+    }
+}
+
 export const adminApi = axios.create({
     baseURL: 'https://api.musicaltimemachine.com/api/admin',
     withCredentials: true,
@@ -11,11 +29,29 @@ export const adminApi = axios.create({
     xsrfHeaderName: 'X-XSRF-TOKEN',
 });
 
+adminApi.interceptors.request.use(async (config) => {
+    await ensureCsrfToken();
+    const token = getCookie('XSRF-TOKEN');
+    if (token) {
+        config.headers['X-XSRF-TOKEN'] = token;
+    }
+    return config;
+});
+
 export const publicApi = axios.create({
     baseURL: 'https://api.musicaltimemachine.com/api',
     withCredentials: true,
     xsrfCookieName: 'XSRF-TOKEN',
     xsrfHeaderName: 'X-XSRF-TOKEN',
+});
+
+publicApi.interceptors.request.use(async (config) => {
+    await ensureCsrfToken();
+    const token = getCookie('XSRF-TOKEN');
+    if (token) {
+        config.headers['X-XSRF-TOKEN'] = token;
+    }
+    return config;
 });
 
 export const AuthProvider = ({ children }) => {
@@ -34,8 +70,6 @@ export const AuthProvider = ({ children }) => {
             }
 
             try {
-                await publicApi.get('/auth/csrf-token');
-
                 const response = await adminApi.get('/me');
                 setUser(response.data.user);
             } catch (error) {
@@ -52,8 +86,6 @@ export const AuthProvider = ({ children }) => {
 
     const loginUser = async (credentials) => {
         try {
-            await publicApi.get('/auth/csrf-token');
-
             await adminApi.post('/login', credentials);
             const response = await adminApi.get('/me');
             const user = response.data.user;
